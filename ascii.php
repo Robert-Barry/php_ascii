@@ -1,22 +1,42 @@
+/* 
+ASCII ART
+A program allowing users to upload ascii art for exhibiting
+on the web.
+
+AUTHOR: Robert Barry
+# DATE CREATED: July 23, 2012
+# DATE CHANGED: July 23, 2012
+# WEB ADDRESS: http://www.robertbarry.net/ascii/ascii.php
+
+*/
+
 <?php
+	// Get variables
 	$title = $_POST['title'];
 	$art = $_POST['art'];
 	
 	$error = "";
 	
+	// Connect to database
 	$db = new mysqli('localhost', 'root', 'root', 'ascii');
 	
+	// Database error check
 	if (mysqli_connect_errno()) {
 		$error = "ERROR: Could not connect to database. Please try again later.";
 	}
 	
+	// If the art was submitted, check for valid title and art
 	if ($_POST['submit']) {
 		if ($title && $art) {
+			// SQL to add art and title to the database
 			$query = "INSERT INTO art (title, art) VALUES('".$title."', '".$art."')";
+			// Query the database
 			$result = $db->query($query);
+			// Test that the query was successful
 			if (!$result) {
 				$error  = "ERROR: The item was not added.";
 			}
+			// reset variables to keep from accidental reload
 			$title = "";
 			$art = "";
 		} else {
@@ -57,12 +77,17 @@
 	<hr />
 
 <?php
+	// Output the artwork on the front page ordered by creation date
+	// SQL Query to retieve the database
 	$query = "SELECT * FROM art ORDER BY created DESC";
 	
+	// Query the database
 	$result = $db->query($query);
 	
+	// Get the number of rows returned
 	$num_results = $result->num_rows;
 	
+	// Output the data to the web page
 	for ($i = 0; $i < $num_results - 1; $i++) {
 		$row = $result->fetch_object();
 
@@ -76,6 +101,7 @@
 <?php
 	}
 	
+	// close the database
 	$db->close();
 ?>
 	
