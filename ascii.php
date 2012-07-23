@@ -11,10 +11,16 @@
 	}
 	
 	if ($_POST['submit']) {
-		$query = "INSERT INTO art (title, art) VALUES('".$title."', '".$art."')";
-		$result = $db->query($query);
-		if (!$result) {
-			$error  = "ERROR: The item was not added.";
+		if ($title && $art) {
+			$query = "INSERT INTO art (title, art) VALUES('".$title."', '".$art."')";
+			$result = $db->query($query);
+			if (!$result) {
+				$error  = "ERROR: The item was not added.";
+			}
+			$title = "";
+			$art = "";
+		} else {
+			$error = "You must enter a title and some art.";
 		}
 	}
 
@@ -36,11 +42,11 @@
 	<form method="post">
 	    <label>
 	        <div>title</div>
-		<input type="text" name="title" value="" />
+		<input type="text" name="title" value="<?php echo $title; ?>" />
 	    </label>
 	    <label>
 		<div>art</div>
-		<textarea name="art"></textarea>
+		<textarea name="art"><?php echo $art; ?></textarea>
 	    </label>
 
 	    <div class="error"><?php echo $error; ?></div>
@@ -57,7 +63,7 @@
 	
 	$num_results = $result->num_rows;
 	
-	for ($i = 0; $i < $num_results; $i++) {
+	for ($i = 0; $i < $num_results - 1; $i++) {
 		$row = $result->fetch_object();
 
 ?>
