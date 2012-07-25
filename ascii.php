@@ -18,7 +18,7 @@ AUTHOR: Robert Barry
 	$error = "";
 	
 	// Connect to database
-	$db = new mysqli('localhost', 'root', 'root', 'ascii');
+	$db = new mysqli('localhost', '####', '####', '####');
 	
 	// Database error check
 	if (mysqli_connect_errno()) {
