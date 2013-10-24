@@ -1,14 +1,14 @@
-/* 
+<!-- 
 ASCII ART
 A program allowing users to upload ascii art for exhibiting
 on the web.
 
 AUTHOR: Robert Barry
 # DATE CREATED: July 23, 2012
-# DATE CHANGED: July 23, 2012
+# DATE CHANGED: October 24, 2013
 # WEB ADDRESS: http://www.robertbarry.net/ascii/ascii.php
 
-*/
+-->
 
 <?php
 	// Get variables
@@ -18,7 +18,7 @@ AUTHOR: Robert Barry
 	$error = "";
 	
 	// Connect to database
-	$db = new mysqli('localhost', 'root', 'root', 'ascii');
+	$db = new mysqli('asciiart.db.4820866.hostedresource.com', 'asciiart', 'b2A33r#!', 'asciiart');
 	
 	// Database error check
 	if (mysqli_connect_errno()) {
@@ -54,24 +54,47 @@ AUTHOR: Robert Barry
 	<title>/ascii/</title>
 
 	<link href="ascii.css" rel="stylesheet" type="text/css" />
+	
+	<script>
+		window.onload = function() {
+			var title = document.getElementById("title");
+			var art = document.getElementById("art");
+			var art_work = document.getElementById("art_work");
+			var human = document.getElementById("human");
+			art_work.onsubmit = function() {
+				if (human.value !== "YES" && title.value != "" && art.value != "")
+				{
+					alert("Sorry, but I only accept submissions from humans.");
+					return false;
+				}
+			}
+		}
+	</script>
+	
     </head>
 
     <body>
 	<h1>/ascii/</h2>
 
-	<form method="post">
+	<form method="post" id="art_work" >
 	    <label>
 	        <div>title</div>
-		<input type="text" name="title" value="<?php echo $title; ?>" />
+		<input type="text" name="title" id="title" value="<?php echo $title; ?>" />
 	    </label>
 	    <label>
 		<div>art</div>
-		<textarea name="art"><?php echo $art; ?></textarea>
+		<textarea name="art" id="art"><?php echo $art; ?></textarea>
 	    </label>
 
 	    <div class="error"><?php echo $error; ?></div>
+	    
+	    <label id="yes">
+	    	Are you human? Type "YES" (all caps) if you are.
+	    	<input type="text" id="human" name="human" size="4" />
+	    </label>
+	    <br>
 
-	    <input type="submit" name="submit" value="Submit" />
+	    <input type="submit" name="submit" id="submit" value="Submit" />
 	</form>
 
 	<hr />
@@ -88,7 +111,7 @@ AUTHOR: Robert Barry
 	$num_results = $result->num_rows;
 	
 	// Output the data to the web page
-	for ($i = 0; $i < $num_results - 1; $i++) {
+	for ($i = 0; $i < $num_results; $i++) {
 		$row = $result->fetch_object();
 
 ?>
