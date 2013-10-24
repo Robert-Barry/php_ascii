@@ -3,6 +3,7 @@
 		width: 800px;
 		margin: 0 auto;
 		padding: 10px;
+		background-color: white;
 	    }
 
 	    .error {
@@ -47,4 +48,12 @@
 	    .art-body {
 		margin: 0;
 		font-size: 17px;
+	    }
+	    
+	    #yes {
+	    	font-size: 16px;
+	    }
+	    
+	    #human {
+	    	width: 80px;
 	    }
